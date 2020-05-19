@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html class="html_angularjs">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://apps.nguyenmanhthang.net">
+    <title>Apps | NguyenManhThang.Net</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container" ng-app="MyApp" ng-controller="MyController">
+        <div ng-show="loading"
+            style="margin: 50px auto auto auto; text-align: center; font-size: xx-large; color: steelblue;"><i
+                class="fa fa-refresh fa-spin"></i> Loading...</div>
+        <br>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel {{objDashboard.panel_class}}" ng-repeat="objDashboard in lstDashboard"
+                style="margin-bottom: 20px">
+                <div class="panel-heading" role="tab" id="heading{{$index}}">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}"
+                            aria-expanded="{{objDashboard.aria_expanded}}" aria-controls="collapse{{$index}}">
+                            <strong>#{{$index + 1}}. {{objDashboard.panel_title}}</strong>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse{{$index}}"
+                    class="panel-collapse collapse {{objDashboard.aria_expanded != null && objDashboard.aria_expanded == 'true' ? 'in' : 'out'}}"
+                    role="tabpanel" aria-labelledby="heading{{$index}}">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-3" ng-repeat="objGroup in objDashboard.panel_body">
+                                <div class="panel {{objGroup.panel_class}}">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="{{objGroup.icon}} fa fa-5x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <p ng-show="{{objGroup.heading == null}}" class="announcement-heading">
+                                                    {{$parent.$index + 1}}. {{$index + 1}}</p>
+                                                <p ng-hide="{{objGroup.heading == null}}" class="announcement-heading">
+                                                    {{objGroup.heading}}</p>
+                                                <p class="announcement-text"><strong
+                                                        ng-bind-html="objGroup.text | ashtml"></strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer announcement-bottom">
+                                        <div class="row">
+                                            <div class="col-xs-6" ng-hide="{{objGroup.url_webapi == null}}">
+                                                <a href="{{objGroup.url_webapi}}" target="_blank"><i
+                                                        class="fa fa-cubes"></i>
+                                                    WebApi</a>
+                                            </div>
+                                            <div class="col-xs-{{objGroup.url_webapi == null ? 12 : 6}} text-right">
+                                                <a href="{{objGroup.url_webapp}}" target="_blank"><i
+                                                        class="fa fa-paper-plane"></i>
+                                                    WebApp</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/datasource.js"></script>
+    <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function (registration) {
+                // registration worked
+                console.log('Registration succeeded.');
+                registration.addEventListener('updatefound', function () {
+                    console.log('service worker changed');
+                });
+                registration.update();
+            }).catch(function (error) {
+                // registration failed
+                console.log('Registration failed with ' + error);
+            });
+        };
+    </script>
+    <script type="text/javascript">
+        var app = angular.module('MyApp', [])
+        app.filter('ashtml', function ($sce) { return $sce.trustAsHtml; })
+        app.controller('MyController', function ($scope, $http, $timeout) {
+            $scope.loading = true;
+            $timeout(function () {
+                $scope.lstDashboard = data;
+                //$http.get('js/datasource.js')
+                //    .then(function (res) {
+                //        $scope.lstDashboard = res.data;
+                //	});
+                $scope.loading = false;
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>
