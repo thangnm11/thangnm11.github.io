@@ -22,14 +22,14 @@ const RUNTIME = 'runtime';
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
     'index.html',
-	'VietnamCustoms.ico',
-    './css/bootstrap.min.css',
-    './css/font-awesome.min.css',
-	'./fonts/fontawesome-webfont.woff2',
-    './js/angular.min.js',
-    './js/bootstrap.min.js',
-	'./js/datasource.js',
-	'./js/jquery-1.11.1.min.js'
+	'favicon.ico',
+    './assets/css/bootstrap.min.css',
+    './assets/css/font-awesome.min.css',
+	'./assets/fonts/fontawesome-webfont.woff2',
+    './assets/js/angular.min.js',
+    './assets/js/bootstrap.min.js',
+	'./assets/js/datasource.js',
+	'./assets/js/jquery-1.11.1.min.js'
 ];
 
 // The install handler takes care of precaching the resources we always need.
